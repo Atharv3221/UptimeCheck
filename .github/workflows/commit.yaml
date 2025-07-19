@@ -1,0 +1,25 @@
+name: CommitCount
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: '*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  commit-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for full commit history
+
+      - name: Run commit count check
+        run: ./.ci/one-commit.sh
