@@ -1,4 +1,4 @@
-package uptimecheck
+package client
 
 import (
 	"log/slog"
